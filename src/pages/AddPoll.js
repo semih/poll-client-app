@@ -4,11 +4,14 @@ import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addPoll } from "../redux/actions/addPoll";
+import { selectAccessToken } from "../redux/accessors";
 
 const AddPoll = () => {
   const dispatch = useDispatch();
+  const accessToken = useSelector(selectAccessToken);
+  console.log({ accessToken });
 
   const [englishPoll, setEnglishPoll] = useState("");
   const [turkishPoll, setTurkishPoll] = useState("");

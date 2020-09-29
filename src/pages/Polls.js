@@ -3,7 +3,11 @@ import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { getPolls } from "../redux/actions/getPolls";
-import { selectIsUserLoggedIn, selectPolls } from "../redux/accessors";
+import {
+  selectIsUserLoggedIn,
+  selectPolls,
+  selectAccessToken,
+} from "../redux/accessors";
 import Button from "react-bootstrap/Button";
 import { Redirect } from "react-router-dom";
 import Login from "./Login";
@@ -18,6 +22,9 @@ const Polls = () => {
   }, [dispatch]);
 
   const polls = useSelector(selectPolls);
+  const accessToken = useSelector(selectAccessToken);
+
+  console.log({ accessToken });
 
   if (!isUserLoggedIn) {
     return <Redirect to="/login" components={Login} />;
