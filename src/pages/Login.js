@@ -37,27 +37,23 @@ export default function Login() {
       password,
     });
 
-    setLoading(false);
-    if (response) {
-      setErred(true);
-    }
-
     if (response.accessToken) {
       let accessToken = response.accessToken;
-      localStorage.setItem("loggedInUserToken", accessToken);
-      localStorage.setItem("loggedInUsernameOrEmail", usernameOrEmail);
-
       await getData(
         "http://localhost:8181/api/user/me",
         accessToken
       ).then((data) =>
         dispatch(userLoggedIn(usernameOrEmail, data.authorities))
       );
+      setLoading(false);
+      if (response) {
+        setErred(true);
+      }
     }
   }
 
   if (isUserLoggedIn && userAuthorities[0].authority === "ROLE_USER") {
-    return <Redirect to="/" />;
+    return <Redirect to="/polls" />;
   } else if (isUserLoggedIn && userAuthorities[0].authority === "ROLE_ADMIN") {
     return <Redirect to="/addPoll" />;
   }
