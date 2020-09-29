@@ -13,8 +13,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import LoginButton from "../components/LoginButton";
 import LoginErrorBar from "../components/LoginErrorBar";
-import { Redirect, Route } from "react-router-dom";
-import AddPoll from "./AddPoll";
+import { Redirect } from "react-router-dom";
 
 export default function Login() {
   const dispatch = useDispatch();
