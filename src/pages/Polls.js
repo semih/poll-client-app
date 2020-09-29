@@ -3,18 +3,25 @@ import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { getPolls } from "../redux/actions/getPolls";
-import { selectPolls } from "../redux/accessors";
+import { selectIsUserLoggedIn, selectPolls } from "../redux/accessors";
 import Button from "react-bootstrap/Button";
+import { Redirect } from "react-router-dom";
+import Login from "./Login";
 
 const Polls = () => {
   const dispatch = useDispatch();
 
+  const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
   useEffect(() => {
     dispatch(getPolls());
     return () => {};
   }, [dispatch]);
 
   const polls = useSelector(selectPolls);
+
+  if (!isUserLoggedIn) {
+    return <Redirect to="/login" components={Login} />;
+  }
 
   return (
     <Container className="my-5">

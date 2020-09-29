@@ -52,7 +52,7 @@ export default function Login() {
   }
 
   if (isUserLoggedIn && userAuthorities[0].authority === "ROLE_USER") {
-    return <Redirect to="/polls" />;
+    return <Redirect to="/" />;
   } else if (isUserLoggedIn && userAuthorities[0].authority === "ROLE_ADMIN") {
     return <Redirect to="/addPoll" />;
   }

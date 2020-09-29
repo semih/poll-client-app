@@ -2,8 +2,8 @@ import React from "react";
 
 const Error = () => {
   return (
-    <div>
-      <p>Error: Page does not exist!</p>
+    <div className="text-center mt-5">
+      <p>Hata: 404 Sayfa bulunamadı!</p>
     </div>
   );
 };
