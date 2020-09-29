@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsUserLoggedIn } from "../redux/accessors";
+import {
+  selectIsUserLoggedIn,
+  selectUserAuthorities,
+} from "../redux/accessors";
 import { userLoggedIn } from "../redux/actions/login";
 import { getData, postData } from "../utils/helpers";
 
@@ -10,7 +13,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import LoginButton from "../components/LoginButton";
 import LoginErrorBar from "../components/LoginErrorBar";
-import { Redirect } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
+import AddPoll from "./AddPoll";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -21,6 +25,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+  const userAuthorities = useSelector(selectUserAuthorities);
 
   async function handleSubmitLogin(e) {
     e.preventDefault();
@@ -36,20 +41,25 @@ export default function Login() {
     if (response) {
       setErred(true);
     }
+
     if (response.accessToken) {
-      dispatch(userLoggedIn(usernameOrEmail));
-      localStorage.setItem("loggedInUserToken", response.accessToken);
+      let accessToken = response.accessToken;
+      localStorage.setItem("loggedInUserToken", accessToken);
       localStorage.setItem("loggedInUsernameOrEmail", usernameOrEmail);
 
-      const responseUserInfo = await getData(
+      await getData(
         "http://localhost:8181/api/user/me",
-        response.accessToken
-      ).then((data) => console.log(data.authorities[0].authority));
+        accessToken
+      ).then((data) =>
+        dispatch(userLoggedIn(usernameOrEmail, data.authorities))
+      );
     }
   }
 
-  if (isUserLoggedIn) {
+  if (isUserLoggedIn && userAuthorities[0].authority === "ROLE_USER") {
     return <Redirect to="/" />;
+  } else if (isUserLoggedIn && userAuthorities[0].authority === "ROLE_ADMIN") {
+    return <Redirect to="/addPoll" />;
   }
 
   return (

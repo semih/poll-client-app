@@ -1,9 +1,9 @@
-export function userLoggedIn(usernameOrEmail, accessToken) {
+export function userLoggedIn(usernameOrEmail, userAuthorities) {
   return {
     type: "USER_LOGGED_IN",
     payload: {
       usernameOrEmail,
-      accessToken,
+      userAuthorities,
     },
   };
 }
