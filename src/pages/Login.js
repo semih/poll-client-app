@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsUserLoggedIn } from "../../redux/accessors";
-import { userLoggedIn } from "../../redux/actions/login";
-import { postData } from "../../utils/helpers";
+import { selectIsUserLoggedIn } from "../redux/accessors";
+import { userLoggedIn } from "../redux/actions/login";
+import { getData, postData } from "../utils/helpers";
 
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import LoginButton from "../LoginButton";
-import LoginErrorBar from "../LoginErrorBar";
+import LoginButton from "../components/LoginButton";
+import LoginErrorBar from "../components/LoginErrorBar";
 import { Redirect } from "react-router-dom";
 
 export default function Login() {
@@ -33,16 +33,18 @@ export default function Login() {
     });
 
     setLoading(false);
-
     if (response) {
       setErred(true);
     }
-
     if (response.accessToken) {
-      console.log({ response });
       dispatch(userLoggedIn(usernameOrEmail));
-      localStorage.setItem("loggedInUserToken", response.token);
+      localStorage.setItem("loggedInUserToken", response.accessToken);
       localStorage.setItem("loggedInUsernameOrEmail", usernameOrEmail);
+
+      const responseUserInfo = await getData(
+        "http://localhost:8181/api/user/me",
+        response.accessToken
+      ).then((data) => console.log(data.authorities[0].authority));
     }
   }
 
@@ -93,7 +95,7 @@ export default function Login() {
           </Col>
         </Row>
       </Form>
-      {isErred && <LoginErrorBar />}
+      <Container>{isErred && <LoginErrorBar />}</Container>
     </Container>
   );
 }

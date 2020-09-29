@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { useDispatch } from "react-redux";
-import { addPoll } from "../../redux/actions/addPoll";
+import { addPoll } from "../redux/actions/addPoll";
 
 const AddPoll = () => {
   const dispatch = useDispatch();

@@ -1,7 +1,7 @@
 const defaultState = {
   isLoading: null,
   error: null,
-  words: [],
+  polls: [],
 };
 
 const pollsReducer = (state = defaultState, action) => {

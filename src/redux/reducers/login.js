@@ -6,7 +6,6 @@ const defaultState = {
 const loginReducer = (state = defaultState, action) => {
   switch (action.type) {
     case "USER_LOGGED_IN":
-      console.log({ action });
       return {
         ...state,
         usernameOrEmail: action.payload.usernameOrEmail,

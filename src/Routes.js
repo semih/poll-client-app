@@ -1,9 +1,9 @@
 import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import AddPoll from "./components/pages/AddPoll";
-import Polls from "./components/pages/Polls";
-import Login from "./components/pages/Login";
-import Home from "./components/pages/Home";
+import AddPoll from "./pages/AddPoll";
+import Polls from "./pages/Polls";
+import Login from "./pages/Login";
+import Home from "./pages/Home";
 
 const Routes = () => {
   return (
