@@ -1,18 +1,24 @@
 import React from "react";
-import { Nav } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
+import { useSelector } from "react-redux";
+import { selectUsernameOrEmail } from "../redux/accessors";
 
-export default function Header(props) {
+export default function Header() {
+  const usernameOrEmail = useSelector(selectUsernameOrEmail);
+  const loggedInUserEmail = localStorage.getItem("loggedInUserEmail");
+
+  console.log({ loggedInUserEmail });
+
   return (
-    <Nav className="justify-content-end">
-      <Nav.Item>
-        <Nav.Link eventKey="disabled" disabled>
-          Hoşgeldiniz <b>{props.usernameOrEmail}</b>
-        </Nav.Link>
-      </Nav.Item>
-
-      <Nav.Item>
-        <Nav.Link href="/login">Çıkış</Nav.Link>
-      </Nav.Item>
-    </Nav>
+    <Navbar>
+      <Navbar.Collapse className="justify-content-end">
+        <Navbar.Text>
+          Hoşgeldiniz: <b>{usernameOrEmail}</b>
+        </Navbar.Text>
+        <Nav.Item>
+          <Nav.Link href="/login">Çıkış</Nav.Link>
+        </Nav.Item>
+      </Navbar.Collapse>
+    </Navbar>
   );
 }

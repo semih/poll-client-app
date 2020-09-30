@@ -5,6 +5,7 @@ export function addPoll(request) {
     });
 
     try {
+      /*
       fetch("http://13.80.245.153:82/api/Proverbs/Post", {
         method: "POST",
         headers: {
@@ -16,7 +17,7 @@ export function addPoll(request) {
         .then((json) => {
           dispatch({ type: "POST_ADDPOLL_SUCCESS", payload: json });
           console.log(json);
-        });
+        });*/
     } catch (error) {
       dispatch({
         type: "POST_ADDPOLL_FAILED",

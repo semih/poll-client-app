@@ -6,33 +6,28 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { addPoll } from "../redux/actions/addPoll";
-import {
-  selectAccessToken,
-  selectIsUserLoggedIn,
-  selectUsernameOrEmail,
-} from "../redux/accessors";
+import { selectAccessToken, selectIsUserLoggedIn } from "../redux/accessors";
 import { Redirect } from "react-router-dom";
 import Login from "./Login";
 import Header from "../components/Header";
+import OptionControl from "../components/OptionControl";
 
 const AddPoll = () => {
   const dispatch = useDispatch();
   const accessToken = useSelector(selectAccessToken);
-  const usernameOrEmail = useSelector(selectUsernameOrEmail);
 
   console.log("AddPoll");
   console.log({ accessToken });
-  console.log({ usernameOrEmail });
 
   const [englishPoll, setEnglishPoll] = useState("");
   const [turkishPoll, setTurkishPoll] = useState("");
 
-  const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
-  if (!isUserLoggedIn) {
-    return <Redirect to="/login" components={Login} />;
-  }
+  // const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+  // if (!isUserLoggedIn) {
+  //   return <Redirect to="/login" components={Login} />;
+  // }
 
-  async function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     dispatch(
@@ -41,47 +36,57 @@ const AddPoll = () => {
         turkishMean: turkishPoll.toString(),
       })
     );
-  }
+  };
+
+  const handleQuestionChange = (e) => {
+    e.preventDefault();
+  };
+
+  const isFormInvalid = () => {};
+
+  const handleClickAddChoice = () => {};
 
   return (
     <React.Fragment>
       <Container className="my-5">
-        <Header usernameOrEmail={usernameOrEmail} />
+        <Header />
       </Container>
-      <Container className="my-5">
-        <Form onSubmit={handleSubmit}>
-          <Row>
-            <Col xs={12} md={6} className="mx-auto">
-              <Form.Group>
-                <Form.Control
-                  as="textarea"
-                  rows="3"
-                  placeholder="İngilizce Söz"
-                  onChange={(e) => setEnglishPoll(e.target.value)}
-                />
+      <Container>
+        <Row>
+          <Col></Col>
+          <Col xs={6}>
+            <Form>
+              <Form.Group as={Row}>
+                <Form.Label column sm={2}>
+                  Soru
+                </Form.Label>
+                <Col sm={10}>
+                  <Form.Control
+                    as="textarea"
+                    rows={3}
+                    placeholder="Bir Soru Yaz"
+                  />
+                </Col>
               </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} md={6} className="mx-auto">
-              <Form.Group>
-                <Form.Control
-                  as="textarea"
-                  rows="3"
-                  placeholder="Türkçe Karşılığı"
-                  onChange={(e) => setTurkishPoll(e.target.value)}
-                />
+
+              <Form.Group as={Row}>
+                <Form.Label column sm={2}>
+                  Seçenekler
+                </Form.Label>
+                <Col sm={10}>
+                  <OptionControl />
+                </Col>
               </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} md={6} className="mx-auto my-2">
-              <Button variant="primary" size="lg" block type="submit">
-                Kaydet
-              </Button>
-            </Col>
-          </Row>
-        </Form>
+
+              <Form.Group as={Row}>
+                <Col sm={{ span: 10, offset: 2 }}>
+                  <Button type="submit">Gönder</Button>
+                </Col>
+              </Form.Group>
+            </Form>
+          </Col>
+          <Col></Col>
+        </Row>
       </Container>
     </React.Fragment>
   );

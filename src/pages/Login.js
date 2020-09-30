@@ -41,6 +41,9 @@ export default function Login() {
       setErred(true);
     }
 
+    localStorage.setItem("loggedInUserToken", response.accessToken);
+    localStorage.setItem("loggedInUserEmail", usernameOrEmail);
+
     if (response.accessToken) {
       let accessToken = response.accessToken;
       await getData(
