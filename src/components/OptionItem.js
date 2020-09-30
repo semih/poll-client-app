@@ -2,10 +2,10 @@ import React, { Component } from "react";
 
 export default class OptionItem extends Component {
   render() {
-    const { title, handleDelete, handleEdit } = this.props;
+    const { text, handleDelete, handleEdit } = this.props;
     return (
       <li className="text-capitalize d-flex justify-content-between my-2">
-        {title}
+        {text}
         <div className="todo-icon">
           <span className="mx-2 text-success" onClick={handleEdit}>
             <i className="fas fa-pen" />

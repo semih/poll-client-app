@@ -10,7 +10,7 @@ export default class OptionList extends Component {
           return (
             <OptionItem
               key={item.id}
-              title={item.title}
+              text={item.text}
               handleDelete={() => handleDelete(item.id)}
               handleEdit={() => handleEdit(item.id)}
             />

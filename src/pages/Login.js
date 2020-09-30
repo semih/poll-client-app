@@ -31,10 +31,16 @@ export default function Login() {
     setErred(false);
     setLoading(true);
 
-    const response = await postData("http://localhost:8181/api/auth/signin", {
-      usernameOrEmail,
-      password,
-    });
+    const response = await postData(
+      "http://localhost:8181/api/auth/signin",
+      {
+        "Content-Type": "application/json",
+      },
+      {
+        usernameOrEmail,
+        password,
+      }
+    );
 
     setLoading(false);
     if (response) {
@@ -42,14 +48,14 @@ export default function Login() {
     }
 
     localStorage.setItem("loggedInUserToken", response.accessToken);
-    localStorage.setItem("loggedInUserEmail", usernameOrEmail);
+    localStorage.setItem("loggedInUsernameOrEmail", usernameOrEmail);
 
     if (response.accessToken) {
       let accessToken = response.accessToken;
-      await getData(
-        "http://localhost:8181/api/user/me",
-        accessToken
-      ).then((data) =>
+      await getData("http://localhost:8181/api/user/me", {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+      }).then((data) =>
         dispatch(userLoggedIn(usernameOrEmail, data.authorities, accessToken))
       );
     }
