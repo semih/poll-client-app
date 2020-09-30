@@ -3,6 +3,7 @@ import OptionItem from "./OptionItem";
 export default class OptionList extends Component {
   render() {
     const { items, handleDelete, handleEdit } = this.props;
+    console.log({ items });
     return (
       <ul className="list-group my-1">
         {items.map((item) => {

@@ -10,7 +10,9 @@ import { selectAccessToken, selectIsUserLoggedIn } from "../redux/accessors";
 import { Redirect } from "react-router-dom";
 import Login from "./Login";
 import Header from "../components/Header";
-import OptionControl from "../components/OptionControl";
+import OptionInput from "../components/OptionInput";
+import OptionList from "../components/OptionList";
+import uuid from "uuid";
 
 const AddPoll = () => {
   const dispatch = useDispatch();
@@ -19,32 +21,56 @@ const AddPoll = () => {
   console.log("AddPoll");
   console.log({ accessToken });
 
-  const [englishPoll, setEnglishPoll] = useState("");
-  const [turkishPoll, setTurkishPoll] = useState("");
-
   // const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
   // if (!isUserLoggedIn) {
   //   return <Redirect to="/login" components={Login} />;
   // }
+  const [items, setItems] = useState([]);
+  const [id, setId] = useState(uuid());
+  const [item, setItem] = useState("");
+  const [editItem, setEditItem] = useState(false);
+
+  const handleChange = (e) => {
+    setItem(e.target.value);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const newItem = {
+      id,
+      title: item,
+    };
+
+    const updatedItems = [...items, newItem];
+    setItems(updatedItems);
+    setItem("");
+    setId(uuid());
+    setEditItem(false);
 
     dispatch(
       addPoll({
-        englishMean: englishPoll.toString(),
-        turkishMean: turkishPoll.toString(),
+        question: "",
+        cohices: {},
       })
     );
   };
 
-  const handleQuestionChange = (e) => {
-    e.preventDefault();
+  const clearList = () => {
+    setItems([]);
+  };
+  const handleDelete = (id) => {
+    const filteredItems = items.filter((item) => item.id !== id);
+    setItems(filteredItems);
   };
 
-  const isFormInvalid = () => {};
-
-  const handleClickAddChoice = () => {};
+  const handleEdit = (id) => {
+    const filteredItems = items.filter((item) => item.id !== id);
+    const selectedItem = items.find((item) => item.id === id);
+    setItems(filteredItems);
+    setItem(selectedItem.title);
+    setId(id);
+    setEditItem(true);
+  };
 
   return (
     <React.Fragment>
@@ -74,7 +100,18 @@ const AddPoll = () => {
                   Seçenekler
                 </Form.Label>
                 <Col sm={10}>
-                  <OptionControl />
+                  <OptionInput
+                    item={item}
+                    handleChange={handleChange}
+                    handleSubmit={handleSubmit}
+                    editItem={editItem}
+                  />
+                  <OptionList
+                    items={items}
+                    clearList={clearList}
+                    handleDelete={handleDelete}
+                    handleEdit={handleEdit}
+                  />
                 </Col>
               </Form.Group>
 

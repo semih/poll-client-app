@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-export default class Item extends Component {
+export default class OptionItem extends Component {
   render() {
     const { title, handleDelete, handleEdit } = this.props;
     return (
