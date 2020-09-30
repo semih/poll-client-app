@@ -36,6 +36,11 @@ export default function Login() {
       password,
     });
 
+    setLoading(false);
+    if (response) {
+      setErred(true);
+    }
+
     if (response.accessToken) {
       let accessToken = response.accessToken;
       await getData(
@@ -44,10 +49,6 @@ export default function Login() {
       ).then((data) =>
         dispatch(userLoggedIn(usernameOrEmail, data.authorities, accessToken))
       );
-      setLoading(false);
-      if (response) {
-        setErred(true);
-      }
     }
   }
 
@@ -55,54 +56,56 @@ export default function Login() {
     return <Redirect to="/" />;
   } else if (isUserLoggedIn && userAuthorities[0].authority === "ROLE_ADMIN") {
     return <Redirect to="/addPoll" />;
-  } else {
-    return (
-      <Container className="my-5">
-        <Form onSubmit={handleSubmitLogin}>
-          <Row>
-            <Col xs={12} md={4} className="mx-auto">
-              <Form.Group controlId="formBasicUserName">
-                <Form.Label>
-                  <b>Kullanıcı Adı</b>
-                </Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Kullanıcı Adı"
-                  value={usernameOrEmail}
-                  onChange={(e) => setUsernameOrEmail(e.target.value)}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col xs={12} md={4} className="mx-auto">
-              <Form.Group controlId="formBasicPassword">
-                <Form.Label>
-                  <b>Parola</b>
-                </Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Parola"
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row className="mt-2 mb-4">
-            <Col xs={12} md={4} className="mx-auto">
-              <LoginButton
-                disabled={
-                  isLoading || usernameOrEmail === "" || password === ""
-                }
-              >
-                Giriş Yap
-              </LoginButton>
-            </Col>
-          </Row>
-        </Form>
-        <Container>{isErred && <LoginErrorBar />}</Container>
-      </Container>
-    );
   }
+
+  return (
+    <Container className="my-5">
+      <Form onSubmit={handleSubmitLogin}>
+        <Row>
+          <Col xs={12} md={4} className="mx-auto">
+            <Form.Group controlId="formBasicUserName">
+              <Form.Label>
+                <b>Kullanıcı Adı</b>
+              </Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Kullanıcı Adı"
+                value={usernameOrEmail}
+                onChange={(e) => setUsernameOrEmail(e.target.value)}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12} md={4} className="mx-auto">
+            <Form.Group controlId="formBasicPassword">
+              <Form.Label>
+                <b>Parola</b>
+              </Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Parola"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+        <Row className="mt-2 mb-4">
+          <Col xs={12} md={4} className="mx-auto">
+            <LoginButton
+              disabled={isLoading || usernameOrEmail === "" || password === ""}
+            >
+              Giriş Yap
+            </LoginButton>
+          </Col>
+        </Row>
+      </Form>
+      <Row className="mt-5">
+        <Col xs={12} md={4} className="mx-auto">
+          {isErred && <LoginErrorBar />}
+        </Col>
+      </Row>
+    </Container>
+  );
 }
