@@ -73,15 +73,10 @@ const AddPoll = () => {
 
   const handleSend = (e) => {
     e.preventDefault();
-    const choices = [];
-
-    items.forEach((item) => {
-      choices.push({ text: item.text });
-    });
 
     const request = {
       question,
-      choices,
+      choices: items.map((item) => ({ text: item.text })),
     };
 
     console.log({ accessToken });
