@@ -4,7 +4,7 @@ export default class Item extends Component {
   render() {
     const { title, handleDelete, handleEdit } = this.props;
     return (
-      <li className="list-group-item text-capitalize d-flex">
+      <li className="text-capitalize d-flex justify-content-between my-2">
         {title}
         <div className="todo-icon">
           <span className="mx-2 text-success" onClick={handleEdit}>

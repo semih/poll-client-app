@@ -48,7 +48,7 @@ const AddPoll = () => {
 
   return (
     <React.Fragment>
-      <Container className="my-5">
+      <Container className="my-2">
         <Header />
       </Container>
       <Container>

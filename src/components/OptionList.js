@@ -4,7 +4,7 @@ export default class OptionList extends Component {
   render() {
     const { items, handleDelete, handleEdit } = this.props;
     return (
-      <ul className="list-group my-2">
+      <ul className="list-group my-1">
         {items.map((item) => {
           return (
             <OptionItem

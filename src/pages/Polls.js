@@ -28,10 +28,10 @@ const Polls = () => {
 
   return (
     <React.Fragment>
-      <Container className="my-5">
+      <Container className="my-2">
         <Header />
       </Container>
-      <Container className="my-5">
+      <Container>
         <div className="my-2">
           <Button href="/addPoll" variant="primary" size="lg">
             Yeni Ekle
