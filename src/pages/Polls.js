@@ -3,7 +3,7 @@ import Container from "react-bootstrap/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { getPolls } from "../redux/actions/getPolls";
 import {
-  selectUserAuthorities,
+  selectUserAuthority,
   selectPolls,
   selectAccessToken,
   selectIsUserLoggedIn,
@@ -17,15 +17,15 @@ import Poll from "../components/Poll";
 const Polls = () => {
   const dispatch = useDispatch();
   const accessToken = useSelector(selectAccessToken);
-  const userAuthorities = useSelector(selectUserAuthorities);
+  const userAuthority = useSelector(selectUserAuthority);
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
-  const usernameorEmail = useSelector(selectUsernameOrEmail);
 
   useEffect(() => {
     dispatch(getPolls(accessToken));
   }, [dispatch, accessToken]);
 
   const polls = useSelector(selectPolls);
+  console.log({ isUserLoggedIn });
 
   return (
     <React.Fragment>
@@ -37,11 +37,13 @@ const Polls = () => {
           <Col></Col>
           <Col xs={10}>
             <Form>
-              <Col>
-                {polls.map((p) => (
-                  <Poll key={p.id} {...p} />
-                ))}
-              </Col>
+              {isUserLoggedIn && userAuthority === "ROLE_USER" && (
+                <Col>
+                  {polls.map((poll) => (
+                    <Poll key={poll.id} {...poll} />
+                  ))}
+                </Col>
+              )}
             </Form>
           </Col>
           <Col></Col>

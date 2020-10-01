@@ -1,5 +1,5 @@
 export const selectIsUserLoggedIn = (s) => s.login.isUserLoggedIn;
-export const selectUserAuthorities = (s) => s.login.userAuthorities;
+export const selectUserAuthority = (s) => s.login.userAuthority;
 export const selectAccessToken = (s) => s.login.accessToken;
 export const selectUsernameOrEmail = (s) => s.login.usernameOrEmail;
 

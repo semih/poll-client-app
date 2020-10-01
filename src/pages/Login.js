@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectIsUserLoggedIn,
-  selectUserAuthorities,
-} from "../redux/accessors";
+import { selectIsUserLoggedIn, selectUserAuthority } from "../redux/accessors";
 import { userLoggedIn } from "../redux/actions/login";
 import { getData, postData } from "../utils/helpers";
 
@@ -24,7 +21,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
-  const userAuthorities = useSelector(selectUserAuthorities);
+  const userAuthority = useSelector(selectUserAuthority);
 
   async function handleSubmitLogin(e) {
     e.preventDefault();
@@ -61,9 +58,9 @@ export default function Login() {
     }
   }
 
-  if (isUserLoggedIn && userAuthorities[0].authority === "ROLE_USER") {
+  if (isUserLoggedIn && userAuthority === "ROLE_USER") {
     return <Redirect to="/" />;
-  } else if (isUserLoggedIn && userAuthorities[0].authority === "ROLE_ADMIN") {
+  } else if (isUserLoggedIn && userAuthority === "ROLE_ADMIN") {
     return <Redirect to="/addPoll" />;
   }
 

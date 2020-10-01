@@ -1,22 +1,31 @@
 import React from "react";
 import { Nav, Navbar } from "react-bootstrap";
 import { useSelector } from "react-redux";
-import { selectUsernameOrEmail } from "../redux/accessors";
+import {
+  selectIsUserLoggedIn,
+  selectUsernameOrEmail,
+} from "../redux/accessors";
+import { selectUserAuthority } from "../redux/accessors";
 
 export default function Header() {
   const usernameOrEmail = useSelector(selectUsernameOrEmail);
-  //const loggedInUserEmail = localStorage.getItem("loggedInUserEmail");
+  const userAuthority = useSelector(selectUserAuthority);
+  const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+  const welcome = "Hoşgeldiniz";
+  console.log({ userAuthority });
 
   return (
     <Navbar>
-      <Navbar.Collapse className="justify-content-end">
-        <Navbar.Text>
-          Hoşgeldiniz: <b>{usernameOrEmail}</b>
-        </Navbar.Text>
-        <Nav.Item>
-          <Nav.Link href="/login">Çıkış</Nav.Link>
-        </Nav.Item>
-      </Navbar.Collapse>
+      {isUserLoggedIn && (
+        <Navbar.Collapse className="justify-content-end">
+          <Navbar.Text>
+            {welcome} <b>{usernameOrEmail}</b>
+          </Navbar.Text>
+          <Nav.Item>
+            <Nav.Link href="/login">Çıkış</Nav.Link>
+          </Nav.Item>
+        </Navbar.Collapse>
+      )}
     </Navbar>
   );
 }

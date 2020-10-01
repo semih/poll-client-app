@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAccessToken } from "../redux/accessors";
 import { castVote } from "../redux/actions/vote";
 
-export default function Poll(props) {
+export default function Poll({ id, question, choices }) {
   const dispatch = useDispatch();
   const accessToken = useSelector(selectAccessToken);
-  const pollId = props.id;
+  const pollId = id;
 
   const [chosenOption, setChosenOption] = useState();
 
@@ -15,18 +15,16 @@ export default function Poll(props) {
     if (e.target.checked) {
       setChosenOption(choiceId);
     }
-    const request = {
-      choiceId,
-    };
 
+    const request = { choiceId };
     dispatch(castVote(accessToken, request, pollId));
   };
 
   return (
     <Card className="mt-2">
       <Card.Body className="mx-2">
-        {props.question}
-        {props.choices.map((choice) => (
+        {question}
+        {choices.map((choice) => (
           <Row key={choice.id} className="ml-2 mt-3">
             <label>
               <input

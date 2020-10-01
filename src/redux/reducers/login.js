@@ -11,7 +11,7 @@ const loginReducer = (state = defaultState, action) => {
       return {
         ...state,
         usernameOrEmail: action.payload.usernameOrEmail,
-        userAuthorities: action.payload.userAuthorities,
+        userAuthority: action.payload.userAuthorities[0].authority,
         isUserLoggedIn: true,
         accessToken: action.payload.accessToken,
       };

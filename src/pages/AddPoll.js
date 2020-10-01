@@ -127,7 +127,11 @@ const AddPoll = () => {
 
               <Form.Group as={Row}>
                 <Col sm={{ span: 10, offset: 2 }}>
-                  <Button onClick={handleSend} type="submit">
+                  <Button
+                    onClick={handleSend}
+                    type="submit"
+                    disabled={question === "" || items.length === 0}
+                  >
                     Gönder
                   </Button>
                 </Col>
