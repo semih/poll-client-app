@@ -1,20 +1,36 @@
-import React from "react";
-import Button from "react-bootstrap/Button";
+import React, { useState } from "react";
+import { Card, Row, Table } from "react-bootstrap";
 
 export default function Poll(props) {
+  console.log({ props });
+
+  const [name, setName] = useState("");
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setName({ [name]: value });
+  };
+
   return (
-    <React.Fragment>
-      <tr>
-        <td>{props.proverbsId}</td>
-        <td>{props.englishMean}</td>
-        <td>{props.turkishMean}</td>
-        <td>
-          <Button variant="primary">Sil</Button>
-        </td>
-        <td>
-          <Button variant="primary">Güncelle</Button>
-        </td>
-      </tr>
-    </React.Fragment>
+    <Card className="mt-5">
+      <Card.Body>
+        <Table>
+          <Row className="mx-2">{props.question}</Row>
+          {props.choices.map((p) => (
+            <div className="radio-buttons mt-2">
+              <label>
+                <input
+                  name="name"
+                  key={p.id}
+                  type="radio"
+                  onChange={handleChange}
+                />
+                <span className="ml-4">{p.text}</span>
+              </label>
+            </div>
+          ))}
+        </Table>
+      </Card.Body>
+    </Card>
   );
 }

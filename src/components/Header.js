@@ -7,8 +7,6 @@ export default function Header() {
   const usernameOrEmail = useSelector(selectUsernameOrEmail);
   const loggedInUserEmail = localStorage.getItem("loggedInUserEmail");
 
-  console.log({ loggedInUserEmail });
-
   return (
     <Navbar>
       <Navbar.Collapse className="justify-content-end">

@@ -25,7 +25,6 @@ const AddPoll = () => {
   const [question, setQuestion] = useState(false);
 
   console.log("AddPoll");
-  console.log({ accessToken });
 
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
   if (!isUserLoggedIn) {
@@ -79,8 +78,6 @@ const AddPoll = () => {
       choices: items.map((item) => ({ text: item.text })),
     };
 
-    console.log({ accessToken });
-    console.log({ request });
     dispatch(addPoll(accessToken, request));
   };
 

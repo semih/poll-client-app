@@ -1,15 +1,19 @@
-export function getPolls() {
+import { getData } from "../../utils/helpers";
+
+export function getPolls(accessToken) {
   return async (dispatch) => {
     dispatch({
       type: "GET_POLLS_STARTED",
     });
 
     try {
-      fetch("http://13.80.245.153:82/api/Proverbs")
-        .then((response) => response.json())
-        .then((json) => {
-          dispatch({ type: "GET_POLLS_SUCCESS", payload: json });
-        });
+      console.log({ accessToken });
+      const response = await getData(
+        "http://localhost:8181/api/polls",
+        accessToken
+      );
+
+      dispatch({ type: "GET_POLLS_SUCCESS", payload: response });
     } catch (error) {
       dispatch({
         type: "GET_POLLS_FAILED",

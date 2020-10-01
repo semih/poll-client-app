@@ -8,7 +8,6 @@ import LoginPersister from "./components/LoginPersister";
 function App() {
   return (
     <Provider store={store}>
-      <LoginPersister />
       <Routes />
     </Provider>
   );

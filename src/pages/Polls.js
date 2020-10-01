@@ -1,30 +1,38 @@
-import React, { /*useEffect,*/ useState } from "react";
+import React, { /*useEffect,*/ useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import Table from "react-bootstrap/Table";
-import { /*useDispatch,*/ useSelector } from "react-redux";
-//import { getPolls } from "../redux/actions/getPolls";
+import { useDispatch, useSelector } from "react-redux";
+import { getPolls } from "../redux/actions/getPolls";
 import {
   selectUserAuthorities,
   selectPolls,
   selectAccessToken,
-  //selectIsUserLoggedIn,
-  //selectUsernameOrEmail,
+  selectIsUserLoggedIn,
+  selectUsernameOrEmail,
 } from "../redux/accessors";
 import Button from "react-bootstrap/Button";
 import Header from "../components/Header";
+import { Col, Form, Row } from "react-bootstrap";
+
+import Poll from "../components/Poll";
 
 const Polls = () => {
-  //const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const accessToken = useSelector(selectAccessToken);
   const userAuthorities = useSelector(selectUserAuthorities);
-  const polls = useSelector(selectPolls);
-  //const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
-  //const usernameorEmail = useSelector(selectUsernameOrEmail);
+  const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+  const usernameorEmail = useSelector(selectUsernameOrEmail);
 
-  console.log("Polls");
-  console.log({ userAuthorities });
-  console.log({ accessToken });
+  useEffect(() => {
+    dispatch(getPolls(accessToken));
+  }, [dispatch, accessToken]);
+
+  const polls = useSelector(selectPolls);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <React.Fragment>
@@ -32,16 +40,22 @@ const Polls = () => {
         <Header />
       </Container>
       <Container>
-        <div className="my-2">
-          <Button href="/addPoll" variant="primary" size="lg">
-            Yeni Ekle
-          </Button>
-        </div>
-        <Table striped bordered hover>
-          <thead>
-            <tr>{polls}</tr>
-          </thead>
-        </Table>
+        <Row>
+          <Col></Col>
+          <Col xs={6}>
+            <Form>
+              <Col>
+                {polls.map((p) => (
+                  <Poll key={p.id} {...p} />
+                ))}
+                <Button className="mt-4" onClick={handleClick} type="submit">
+                  Gönder
+                </Button>
+              </Col>
+            </Form>
+          </Col>
+          <Col></Col>
+        </Row>
       </Container>
     </React.Fragment>
   );

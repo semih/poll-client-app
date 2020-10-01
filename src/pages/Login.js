@@ -52,10 +52,10 @@ export default function Login() {
 
     if (response.accessToken) {
       let accessToken = response.accessToken;
-      await getData("http://localhost:8181/api/user/me", {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
-      }).then((data) =>
+      await getData(
+        "http://localhost:8181/api/user/me",
+        accessToken
+      ).then((data) =>
         dispatch(userLoggedIn(usernameOrEmail, data.authorities, accessToken))
       );
     }
