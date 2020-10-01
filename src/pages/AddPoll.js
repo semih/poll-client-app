@@ -25,11 +25,13 @@ const AddPoll = () => {
   const [question, setQuestion] = useState(false);
 
   console.log("AddPoll");
-
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+
+  /*
+
   if (!isUserLoggedIn) {
     return <Redirect to="/login" components={Login} />;
-  }
+  }*/
 
   const handleChange = (e) => {
     setItem(e.target.value);

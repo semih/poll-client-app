@@ -3,29 +3,30 @@ import Container from "react-bootstrap/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { getPolls } from "../redux/actions/getPolls";
 import {
-  selectUserAuthority,
   selectPolls,
   selectAccessToken,
   selectIsUserLoggedIn,
-  selectUsernameOrEmail,
 } from "../redux/accessors";
 import Header from "../components/Header";
 import { Col, Form, Row } from "react-bootstrap";
 
 import Poll from "../components/Poll";
+import Login from "./Login";
+import { Redirect } from "react-router-dom";
 
-const Polls = () => {
+export const Polls = () => {
   const dispatch = useDispatch();
   const accessToken = useSelector(selectAccessToken);
-  const userAuthority = useSelector(selectUserAuthority);
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
 
   useEffect(() => {
     dispatch(getPolls(accessToken));
   }, [dispatch, accessToken]);
-
   const polls = useSelector(selectPolls);
-  console.log({ isUserLoggedIn });
+
+  if (!isUserLoggedIn) {
+    return <Redirect component={Login} to="/login" />;
+  }
 
   return (
     <React.Fragment>
@@ -37,13 +38,11 @@ const Polls = () => {
           <Col></Col>
           <Col xs={10}>
             <Form>
-              {isUserLoggedIn && userAuthority === "ROLE_USER" && (
-                <Col>
-                  {polls.map((poll) => (
-                    <Poll key={poll.id} {...poll} />
-                  ))}
-                </Col>
-              )}
+              <Col>
+                {polls.map((poll) => (
+                  <Poll key={poll.id} {...poll} />
+                ))}
+              </Col>
             </Form>
           </Col>
           <Col></Col>

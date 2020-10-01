@@ -21,7 +21,6 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
-  const userAuthority = useSelector(selectUserAuthority);
 
   async function handleSubmitLogin(e) {
     e.preventDefault();
@@ -39,14 +38,6 @@ export default function Login() {
       }
     );
 
-    setLoading(false);
-    if (response) {
-      setErred(true);
-    }
-
-    localStorage.setItem("loggedInUserToken", response.accessToken);
-    localStorage.setItem("loggedInUsernameOrEmail", usernameOrEmail);
-
     if (response.accessToken) {
       let accessToken = response.accessToken;
       await getData(
@@ -56,12 +47,15 @@ export default function Login() {
         dispatch(userLoggedIn(usernameOrEmail, data.authorities, accessToken))
       );
     }
+
+    setLoading(false);
+    if (response) {
+      setErred(true);
+    }
   }
 
-  if (isUserLoggedIn && userAuthority === "ROLE_USER") {
+  if (isUserLoggedIn) {
     return <Redirect to="/" />;
-  } else if (isUserLoggedIn && userAuthority === "ROLE_ADMIN") {
-    return <Redirect to="/addPoll" />;
   }
 
   return (
