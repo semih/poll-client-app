@@ -13,22 +13,24 @@ export default function Poll(props) {
 
   return (
     <Card className="mt-5">
-      <Card.Body>
+      <Card.Body className="mx-2">
         <Table>
-          <Row className="mx-2">{props.question}</Row>
-          {props.choices.map((p) => (
-            <div className="radio-buttons mt-2">
-              <label>
-                <input
-                  name="name"
-                  key={p.id}
-                  type="radio"
-                  onChange={handleChange}
-                />
-                <span className="ml-4">{p.text}</span>
-              </label>
-            </div>
-          ))}
+          <Row>{props.question}</Row>
+          <div className="mt-4">
+            {props.choices.map((p) => (
+              <div className="radio-buttons">
+                <label>
+                  <input
+                    name="name"
+                    key={p.id}
+                    type="radio"
+                    onChange={handleChange}
+                  />
+                  <span className="ml-3">{p.text}</span>
+                </label>
+              </div>
+            ))}
+          </div>
         </Table>
       </Card.Body>
     </Card>
