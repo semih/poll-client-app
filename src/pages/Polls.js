@@ -16,7 +16,6 @@ import Poll from "../components/Poll";
 
 const Polls = () => {
   const dispatch = useDispatch();
-
   const accessToken = useSelector(selectAccessToken);
   const userAuthorities = useSelector(selectUserAuthorities);
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
