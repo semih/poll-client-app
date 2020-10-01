@@ -5,7 +5,7 @@ import { selectUsernameOrEmail } from "../redux/accessors";
 
 export default function Header() {
   const usernameOrEmail = useSelector(selectUsernameOrEmail);
-  const loggedInUserEmail = localStorage.getItem("loggedInUserEmail");
+  //const loggedInUserEmail = localStorage.getItem("loggedInUserEmail");
 
   return (
     <Navbar>

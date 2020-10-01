@@ -1,14 +1,14 @@
 import { postData } from "../../utils/helpers";
 
-export function addPoll(accessToken, request) {
+export function castVote(accessToken, request) {
   return async (dispatch) => {
     dispatch({
-      type: "POST_ADDPOLL_STARTED",
+      type: "POST_CASTVOTE_STARTED",
     });
 
     try {
       await postData(
-        "http://localhost:8181/api/polls",
+        "http://localhost:8181/api/polls/" + request.pollId + "/votes",
         {
           "Content-Type": "application/json",
           Authorization: "Bearer " + accessToken,
@@ -17,15 +17,15 @@ export function addPoll(accessToken, request) {
       )
         .then((response) => response.json)
         .then((json) => {
-          dispatch({ type: "POST_ADDPOLL_SUCCESS", payload: json });
-          alert("Soru ekleme işlemi başarılı.");
+          dispatch({ type: "POST_CASTVOTE_SUCCESS", payload: json });
+          alert("Oy verme işlemi başarılı.");
         });
     } catch (error) {
       dispatch({
-        type: "POST_ADDPOLL_FAILED",
+        type: "POST_CASTVOTE_FAILED",
         payload: error,
       });
-      alert("Soru ekleme işlemi sırasında hata oluştu.");
+      alert("Oy verme işlemi sırasında hata oluştu.");
     }
   };
 }

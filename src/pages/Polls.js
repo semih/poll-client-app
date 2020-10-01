@@ -1,6 +1,5 @@
-import React, { /*useEffect,*/ useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Container from "react-bootstrap/Container";
-import Table from "react-bootstrap/Table";
 import { useDispatch, useSelector } from "react-redux";
 import { getPolls } from "../redux/actions/getPolls";
 import {
@@ -10,7 +9,6 @@ import {
   selectIsUserLoggedIn,
   selectUsernameOrEmail,
 } from "../redux/accessors";
-import Button from "react-bootstrap/Button";
 import Header from "../components/Header";
 import { Col, Form, Row } from "react-bootstrap";
 
@@ -30,10 +28,6 @@ const Polls = () => {
 
   const polls = useSelector(selectPolls);
 
-  const handleClick = (e) => {
-    e.preventDefault();
-  };
-
   return (
     <React.Fragment>
       <Container className="my-2">
@@ -42,15 +36,12 @@ const Polls = () => {
       <Container>
         <Row>
           <Col></Col>
-          <Col xs={6}>
+          <Col xs={10}>
             <Form>
               <Col>
                 {polls.map((p) => (
                   <Poll key={p.id} {...p} />
                 ))}
-                <Button className="mt-4" onClick={handleClick} type="submit">
-                  Gönder
-                </Button>
               </Col>
             </Form>
           </Col>
