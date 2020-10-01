@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Row, Table } from "react-bootstrap";
+import { Card, Col, Row, Table } from "react-bootstrap";
 
 export default function Poll(props) {
   console.log({ props });
@@ -16,12 +16,12 @@ export default function Poll(props) {
       <Card.Body className="mx-2">
         <Table>
           <Row>{props.question}</Row>
-          <div className="mt-4">
+          <Col className="mt-4">
             {props.choices.map((p) => (
               <div className="radio-buttons">
                 <label>
                   <input
-                    name="name"
+                    name={props.id}
                     key={p.id}
                     type="radio"
                     onChange={handleChange}
@@ -30,7 +30,7 @@ export default function Poll(props) {
                 </label>
               </div>
             ))}
-          </div>
+          </Col>
         </Table>
       </Card.Body>
     </Card>
