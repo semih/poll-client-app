@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Nav, Navbar } from "react-bootstrap";
+import React from "react";
+import { Col, Nav, Navbar, Row, Table } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -12,36 +12,47 @@ export default function Header() {
   const usernameOrEmail = useSelector(selectUsernameOrEmail);
   const userAuthority = useSelector(selectUserAuthority);
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
-  const welcomeText = "Hoşgeldiniz";
+  const welcomeText = "kullanıcısı ile giriş yapıldı.";
   const isAdmin = userAuthority === "ROLE_ADMIN";
 
   const adminMenu = isAdmin && (
-    <Nav.Item>
-      <Link to="/addPoll">Yeni Soru Ekle</Link>
-    </Nav.Item>
+    <Nav className="mr-auto" as="ul">
+      <Link className="ml-1 mr-4" as="li" to="/addPoll">
+        Yeni Soru Ekle
+      </Link>
+      <Link as="li" className="nav-item" to="/polls">
+        Soruları Düzenle
+      </Link>
+    </Nav>
   );
 
   console.log({ isAdmin });
   console.log({ isUserLoggedIn });
   console.log({ userAuthority });
 
-  useEffect(() => {
-    return adminMenu;
-  }, [isAdmin]);
-
   return (
-    <Navbar>
-      {isUserLoggedIn && (
-        <Navbar.Collapse className="justify-content-end">
-          {adminMenu}
-          <Navbar.Text>
-            {welcomeText} <b>{usernameOrEmail}</b>
-          </Navbar.Text>
-          <Nav.Item>
-            <Link to="/login"> Çıkış</Link>
-          </Nav.Item>
-        </Navbar.Collapse>
-      )}
-    </Navbar>
+    <Table>
+      <Row>
+        <Col></Col>
+        <Col sm={10}>
+          <Navbar>
+            {isUserLoggedIn && (
+              <Navbar.Collapse className="justify-content-end">
+                {adminMenu}
+                <Navbar.Text>
+                  <b>{usernameOrEmail}</b> {welcomeText}
+                </Navbar.Text>
+                <Nav.Item>
+                  <Nav.Link className="text-right" href="/login">
+                    Çıkış
+                  </Nav.Link>
+                </Nav.Item>
+              </Navbar.Collapse>
+            )}
+          </Navbar>
+        </Col>
+        <Col></Col>
+      </Row>
+    </Table>
   );
 }

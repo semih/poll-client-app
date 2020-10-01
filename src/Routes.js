@@ -18,6 +18,9 @@ const Routes = () => {
         <Route path="/addpoll">
           <AddPoll />
         </Route>
+        <Route path="/polls">
+          <Polls />
+        </Route>
         <Route component={Error} />
       </Switch>
     </BrowserRouter>
