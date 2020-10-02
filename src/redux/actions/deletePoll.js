@@ -1,16 +1,19 @@
-export function deletePoll(id) {
+import { deleteData } from "../../utils/helpers";
+
+export function deletePoll(accessToken, id) {
   return async (dispatch) => {
     dispatch({
       type: "DELETE_POLL_STARTED",
     });
 
     try {
-      fetch(
-        "http://13.80.245.153:82/api/Proverbs/DeleteProverbs?proverbsId=" + id,
-        {
-          method: "DELETE",
-        }
-      )
+      deleteData("http://localhost:8181/api/polls/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + accessToken,
+        },
+      })
         .then((response) => response)
         .then((json) => {
           dispatch({ type: "DELETE_POLL_SUCCESS", payload: json });

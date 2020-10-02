@@ -6,6 +6,7 @@ import { castVote } from "../redux/actions/vote";
 import ChoiceList from "./ChoiceList";
 import uuid from "uuid";
 import ChoiceInput from "./ChoiceInput";
+import { updatePoll } from "../redux/actions/updatePoll";
 
 export default function Poll({ id, question, choices }) {
   const dispatch = useDispatch();
@@ -75,7 +76,7 @@ export default function Poll({ id, question, choices }) {
       choices: updatedChoices.map((choice) => ({ text: choice.text })),
     };
 
-    //dispatch(editPoll(accessToken, request));
+    dispatch(updatePoll(accessToken, id, request));
   };
 
   return (
@@ -105,13 +106,13 @@ export default function Poll({ id, question, choices }) {
         <Container>
           <Row>
             <Col></Col>
-            <Col xs={6}>
+            <Col xs={10}>
               <Form onSubmit={handleSubmitUpdatePoll}>
                 <Form.Group as={Row}>
                   <Form.Label column sm={2}>
                     Soru
                   </Form.Label>
-                  <Col sm={10}>
+                  <Col sm={8}>
                     {pollId}
                     <Form.Control
                       className="form-control text-capitalize"
@@ -151,6 +152,12 @@ export default function Poll({ id, question, choices }) {
                       disabled={question === "" || choices.length === 0}
                     >
                       Kaydet
+                    </button>
+                    <button
+                      type="submit"
+                      disabled={question === "" || choices.length === 0}
+                    >
+                      Sil
                     </button>
                   </Col>
                 </Form.Group>

@@ -1,4 +1,4 @@
-export function getUserInfo(token) {
+export function getUserInfo(accessToken) {
   return async (dispatch) => {
     dispatch({
       type: "GET_USERINFO_STARTED",
@@ -8,7 +8,7 @@ export function getUserInfo(token) {
       fetch("http://localhost:8181/api/user/me", {
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
+          Authorization: "Bearer " + accessToken,
         },
       })
         .then((response) => response.json())
