@@ -6,33 +6,37 @@ import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { addPoll } from "../redux/actions/addPoll";
-import { selectAccessToken, selectIsUserLoggedIn } from "../redux/accessors";
+import {
+  selectAccessToken,
+  selectAddPoll,
+  selectIsUserLoggedIn,
+} from "../redux/accessors";
 import { Redirect } from "react-router-dom";
 import Login from "./Login";
 import Header from "../components/Header";
-import OptionInput from "../components/OptionInput";
-import OptionList from "../components/OptionList";
+import ChoiceInput from "../components/ChoiceInput";
+import ChoiceList from "../components/ChoiceList";
 import uuid from "uuid";
 
 const AddPoll = () => {
   const dispatch = useDispatch();
-  const accessToken = useSelector(selectAccessToken);
 
-  const [items, setItems] = useState([]);
+  const [choices, setChoices] = useState([]);
   const [id, setId] = useState(uuid());
-  const [item, setItem] = useState("");
-  const [editItem, setEditItem] = useState(false);
+  const [choice, setChoice] = useState("");
+  const [editChoice, setEditChoice] = useState(false);
   const [question, setQuestion] = useState(false);
 
-  console.log("AddPoll");
+  const accessToken = useSelector(selectAccessToken);
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+  const addPollSelector = useSelector(selectAddPoll);
 
   if (!isUserLoggedIn) {
     return <Redirect to="/login" components={Login} />;
   }
 
   const handleChange = (e) => {
-    setItem(e.target.value);
+    setChoice(e.target.value);
   };
 
   const handleChangeQuestion = (e) => {
@@ -41,41 +45,42 @@ const AddPoll = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newItem = {
+    const newChoice = {
       id,
-      text: item,
+      text: choice,
     };
 
-    const updatedItems = [...items, newItem];
-    setItems(updatedItems);
-    setItem("");
+    const updatedChoices = [...choices, newChoice];
+    setChoices(updatedChoices);
+    setChoice("");
     setId(uuid());
-    setEditItem(false);
+    setEditChoice(false);
   };
 
   const clearList = () => {
-    setItems([]);
+    setChoices([]);
   };
+
   const handleDelete = (id) => {
-    const filteredItems = items.filter((item) => item.id !== id);
-    setItems(filteredItems);
+    const filteredChoices = choices.filter((choice) => choice.id !== id);
+    setChoices(filteredChoices);
   };
 
   const handleEdit = (id) => {
-    const filteredItems = items.filter((item) => item.id !== id);
-    const selectedItem = items.find((item) => item.id === id);
-    setItems(filteredItems);
-    setItem(selectedItem.text);
+    const filteredItems = choices.filter((choice) => choice.id !== id);
+    const selectedItem = choices.find((choice) => choice.id === id);
+    setChoices(filteredItems);
+    setChoice(selectedItem.text);
     setId(id);
-    setEditItem(true);
+    setEditChoice(true);
   };
 
-  const handleSend = (e) => {
+  const handleSubmitAddPoll = (e) => {
     e.preventDefault();
 
     const request = {
       question,
-      choices: items.map((item) => ({ text: item.text })),
+      choices: choices.map((choice) => ({ text: choice.text })),
     };
 
     dispatch(addPoll(accessToken, request));
@@ -90,50 +95,47 @@ const AddPoll = () => {
         <Row>
           <Col></Col>
           <Col xs={6}>
-            <Form>
+            <Form onSubmit={handleSubmitAddPoll}>
               <Form.Group as={Row}>
                 <Form.Label column sm={2}>
                   Soru
                 </Form.Label>
                 <Col sm={10}>
-                  <Form.Control
-                    as="textarea"
-                    rows={3}
+                  <input
+                    type="textarea"
+                    className="form-control text-capitalize"
                     placeholder="Bir Soru Yaz"
                     onChange={handleChangeQuestion}
                   />
                 </Col>
               </Form.Group>
-
               <Form.Group as={Row}>
                 <Form.Label column sm={2}>
                   Seçenekler
                 </Form.Label>
                 <Col sm={10}>
-                  <OptionInput
-                    item={item}
+                  <ChoiceInput
+                    item={choice}
                     handleChange={handleChange}
                     handleSubmit={handleSubmit}
-                    editItem={editItem}
+                    editItem={editChoice}
                   />
-                  <OptionList
-                    items={items}
+                  <ChoiceList
+                    items={choices}
                     clearList={clearList}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
                   />
                 </Col>
               </Form.Group>
-
               <Form.Group as={Row}>
                 <Col sm={{ span: 10, offset: 2 }}>
-                  <Button
-                    onClick={handleSend}
+                  <button
                     type="submit"
-                    disabled={question === "" || items.length === 0}
+                    disabled={question === "" || choices.length === 0}
                   >
-                    Gönder
-                  </Button>
+                    Kaydet
+                  </button>
                 </Col>
               </Form.Group>
             </Form>

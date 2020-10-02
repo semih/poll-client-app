@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectIsUserLoggedIn, selectUserAuthority } from "../redux/accessors";
+import { selectIsUserLoggedIn } from "../redux/accessors";
 import { userLoggedIn } from "../redux/actions/login";
 import { getData, postData } from "../utils/helpers";
+import { Redirect } from "react-router-dom";
 
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
@@ -10,16 +11,13 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import LoginButton from "../components/LoginButton";
 import LoginErrorBar from "../components/LoginErrorBar";
-import { Redirect } from "react-router-dom";
 
 export default function Login() {
   const dispatch = useDispatch();
   const [isLoading, setLoading] = useState(false);
   const [isErred, setErred] = useState(false);
-
   const [usernameOrEmail, setUsernameOrEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
 
   async function handleSubmitLogin(e) {

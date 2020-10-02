@@ -1,7 +1,7 @@
-export const selectIsUserLoggedIn = (s) => s.login.isUserLoggedIn;
-export const selectUserAuthority = (s) => s.login.userAuthority;
-export const selectAccessToken = (s) => s.login.accessToken;
-export const selectUsernameOrEmail = (s) => s.login.usernameOrEmail;
+export const selectIsUserLoggedIn = (r) => r.login.isUserLoggedIn;
+export const selectUserAuthority = (r) => r.login.userAuthority;
+export const selectAccessToken = (r) => r.login.accessToken;
+export const selectUsernameOrEmail = (r) => r.login.usernameOrEmail;
 
-export const selectPolls = (s) => s.getPolls.polls;
-export const selectAddPoll = (s) => s.addPoll.polls;
+export const selectPolls = (r) => r.getPolls.polls;
+export const selectAddPoll = (r) => r.addPoll.polls;

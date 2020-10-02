@@ -28,6 +28,10 @@ export const Polls = () => {
     return <Redirect component={Login} to="/login" />;
   }
 
+  const handleClick = (e) => {
+    return <Redirect component={Login} to="/login" />;
+  };
+
   return (
     <React.Fragment>
       <Container className="my-2">
@@ -42,6 +46,11 @@ export const Polls = () => {
                 {polls.map((poll) => (
                   <Poll key={poll.id} {...poll} />
                 ))}
+              </Col>
+              <Col>
+                <button className="btn-dark btn-md my-4" onClick={handleClick}>
+                  Anketi Sonlandır
+                </button>
               </Col>
             </Form>
           </Col>

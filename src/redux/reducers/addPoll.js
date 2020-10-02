@@ -6,7 +6,7 @@ const defaultState = {
 
 const addPollReducer = (state = defaultState, action) => {
   switch (action.type) {
-    case "DELETE_POLL_STARTED":
+    case "ADD_POLL_STARTED":
       return {
         error: null,
         isLoading: true,
@@ -14,16 +14,15 @@ const addPollReducer = (state = defaultState, action) => {
       };
     case "ADD_POLL_SUCCESS":
       return {
-        error: null,
+        ...state,
         isLoading: false,
-        polls: action.payload,
+        polls: [
+          ...state.polls,
+          { add_poll_completed: false, poll_name: action.payload },
+        ],
       };
     case "ADD_POLL_FAILED":
-      return {
-        isLoading: false,
-        error: action.payload,
-        polls: [],
-      };
+      return { ...state, isLoading: false };
     default:
       return state;
   }

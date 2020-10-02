@@ -3,7 +3,7 @@ import { postData } from "../../utils/helpers";
 export function addPoll(accessToken, request) {
   return async (dispatch) => {
     dispatch({
-      type: "POST_ADDPOLL_STARTED",
+      type: "ADD_POLL_STARTED",
     });
 
     try {
@@ -17,15 +17,13 @@ export function addPoll(accessToken, request) {
       )
         .then((response) => response.json)
         .then((json) => {
-          dispatch({ type: "POST_ADDPOLL_SUCCESS", payload: json });
-          alert("Soru ekleme işlemi başarılı.");
+          dispatch({ type: "ADD_POLL_SUCCESS", payload: json });
         });
     } catch (error) {
       dispatch({
-        type: "POST_ADDPOLL_FAILED",
+        type: "ADD_POLL_FAILED",
         payload: error,
       });
-      alert("Soru ekleme işlemi sırasında hata oluştu.");
     }
   };
 }

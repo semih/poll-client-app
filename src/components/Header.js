@@ -26,10 +26,6 @@ export default function Header() {
     </Nav>
   );
 
-  console.log({ isAdmin });
-  console.log({ isUserLoggedIn });
-  console.log({ userAuthority });
-
   return (
     <Table>
       <Row>
@@ -43,9 +39,7 @@ export default function Header() {
                   <b>{usernameOrEmail}</b> {welcomeText}
                 </Navbar.Text>
                 <Nav.Item>
-                  <Nav.Link className="text-right" href="/login">
-                    Çıkış
-                  </Nav.Link>
+                  <Nav.Link href="/login">Çıkış</Nav.Link>
                 </Nav.Item>
               </Navbar.Collapse>
             )}
