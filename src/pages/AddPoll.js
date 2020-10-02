@@ -131,6 +131,7 @@ const AddPoll = () => {
               <Form.Group as={Row}>
                 <Col sm={{ span: 10, offset: 2 }}>
                   <button
+                    className="btn-dark btn-md"
                     type="submit"
                     disabled={question === "" || choices.length === 0}
                   >

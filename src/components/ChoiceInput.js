@@ -14,13 +14,9 @@ const ChoiceInput = ({ item, handleChange, handleSubmit, editItem }) => {
         />
       </div>
       <button
+        className="btn-dark btn-md my-2"
         type="submit"
         disabled={item ? false : true}
-        className={
-          editItem
-            ? "btn btn-block btn-success mt-2"
-            : "btn btn-block btn-dark mt-2"
-        }
       >
         {editItem ? "Düzenle" : "Ekle"}
       </button>

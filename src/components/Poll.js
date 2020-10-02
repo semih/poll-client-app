@@ -129,7 +129,7 @@ export default function Poll({ id, question, choices }) {
                     Seçenekler
                   </Form.Label>
 
-                  <Col sm={10}>
+                  <Col sm={8}>
                     <ChoiceInput
                       item={choice}
                       handleChange={handleChange}
@@ -148,14 +148,16 @@ export default function Poll({ id, question, choices }) {
                 <Form.Group as={Row}>
                   <Col sm={{ span: 10, offset: 2 }}>
                     <button
+                      className="btn-dark btn-md mr-2"
                       type="submit"
                       disabled={question === "" || choices.length === 0}
                     >
                       Kaydet
                     </button>
                     <button
+                      className="btn-dark btn-md"
                       type="submit"
-                      disabled={question === "" || choices.length === 0}
+                      disabled={question === "" && choices.length === 0}
                     >
                       Sil
                     </button>
