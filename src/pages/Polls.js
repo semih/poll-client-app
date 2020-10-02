@@ -6,6 +6,7 @@ import {
   selectPolls,
   selectAccessToken,
   selectIsUserLoggedIn,
+  selectUserAuthority,
 } from "../redux/accessors";
 import Header from "../components/Header";
 import { Col, Form, Row } from "react-bootstrap";
@@ -18,6 +19,7 @@ export const Polls = () => {
   const dispatch = useDispatch();
   const accessToken = useSelector(selectAccessToken);
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
+  const userAuthority = useSelector(selectUserAuthority);
 
   useEffect(() => {
     dispatch(getPolls(accessToken));
@@ -47,11 +49,16 @@ export const Polls = () => {
                   <Poll key={poll.id} {...poll} />
                 ))}
               </Col>
-              <Col>
-                <button className="btn-dark btn-md my-4" onClick={handleClick}>
-                  Anketi Sonlandır
-                </button>
-              </Col>
+              {userAuthority === "ROLE_USER" && (
+                <Col>
+                  <button
+                    className="btn-dark btn-md my-4"
+                    onClick={handleClick}
+                  >
+                    Anketi Sonlandır
+                  </button>
+                </Col>
+              )}
             </Form>
           </Col>
           <Col></Col>

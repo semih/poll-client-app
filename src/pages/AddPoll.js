@@ -25,7 +25,7 @@ const AddPoll = () => {
   const [id, setId] = useState(uuid());
   const [choice, setChoice] = useState("");
   const [editChoice, setEditChoice] = useState(false);
-  const [question, setQuestion] = useState(false);
+  const [question, setQuestion] = useState();
 
   const accessToken = useSelector(selectAccessToken);
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
@@ -84,6 +84,8 @@ const AddPoll = () => {
     };
 
     dispatch(addPoll(accessToken, request));
+    setChoices([]);
+    setQuestion("");
   };
 
   return (
@@ -101,8 +103,10 @@ const AddPoll = () => {
                   Soru
                 </Form.Label>
                 <Col sm={10}>
-                  <input
-                    type="textarea"
+                  <Form.Control
+                    as="textarea"
+                    row="3"
+                    value={question}
                     className="form-control text-capitalize"
                     placeholder="Bir Soru Yaz"
                     onChange={handleChangeQuestion}

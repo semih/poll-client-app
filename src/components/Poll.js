@@ -15,9 +15,9 @@ export default function Poll({ id, question, choices }) {
   const pollId = id;
 
   const [chosenOption, setChosenOption] = useState();
-  const [updatedQuestion, setQuestion] = useState();
-  const [updatedChoices, setChoices] = useState([]);
-  const [updatedId, setId] = useState(uuid());
+  const [updatedQuestion, setQuestion] = useState(question);
+  const [updatedChoices, setChoices] = useState(choices);
+  const [choiceId, setChoiceId] = useState(uuid());
   const [choice, setChoice] = useState("");
   const [editChoice, setEditChoice] = useState(false);
 
@@ -37,14 +37,14 @@ export default function Poll({ id, question, choices }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     const newChoice = {
-      id,
+      id: choiceId,
       text: chosenOption,
     };
 
-    const updatedChoices = [...updatedChoices, newChoice];
-    setChoices(updatedChoices);
+    const choices = [...updatedChoices, newChoice];
+    setChoices(choices);
     setChoice("");
-    setId(uuid());
+    setChoiceId(uuid());
     setEditChoice(false);
   };
 
@@ -52,20 +52,28 @@ export default function Poll({ id, question, choices }) {
     setChoices([]);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (choiceId) => {
     const filteredChoices = updatedChoices.filter(
-      (choice) => choice.updatedId !== id
+      (choice) => choice.id !== choiceId
     );
     setChoices(filteredChoices);
   };
 
-  const handleEdit = (id) => {
-    const filteredItems = updatedChoices.filter((choice) => choice.id !== id);
-    const selectedItem = updatedChoices.find((choice) => choice.id === id);
+  const handleEdit = (choiceId) => {
+    const filteredItems = updatedChoices.filter(
+      (choice) => choice.id !== choiceId
+    );
+    const selectedItem = updatedChoices.find(
+      (choice) => choice.id === choiceId
+    );
     setChoices(filteredItems);
     setChoice(selectedItem.text);
-    setId(id);
+    setChoiceId(choiceId);
     setEditChoice(true);
+  };
+
+  const handleChangeChoice = (e) => {
+    setChoice(e.target.value);
   };
 
   const handleSubmitUpdatePoll = (e) => {
@@ -76,7 +84,7 @@ export default function Poll({ id, question, choices }) {
       choices: updatedChoices.map((choice) => ({ text: choice.text })),
     };
 
-    dispatch(updatePoll(accessToken, id, request));
+    dispatch(updatePoll(accessToken, pollId, request));
   };
 
   return (
@@ -85,7 +93,7 @@ export default function Poll({ id, question, choices }) {
         <Card className="mt-2">
           <Card.Body className="mx-2">
             {question}
-            {choices.map((choice) => (
+            {updatedChoices.map((choice) => (
               <Row key={choice.id} className="ml-2 mt-3">
                 <label>
                   <input
@@ -119,8 +127,8 @@ export default function Poll({ id, question, choices }) {
                       as="textarea"
                       rows={3}
                       placeholder="Bir Soru Yaz"
-                      //onChange={handleChangeQuestion}
-                      value={question}
+                      onChange={handleChangeQuestion}
+                      value={updatedQuestion}
                     />
                   </Col>
                 </Form.Group>
@@ -132,13 +140,13 @@ export default function Poll({ id, question, choices }) {
                   <Col sm={8}>
                     <ChoiceInput
                       item={choice}
-                      handleChange={handleChange}
+                      handleChange={handleChangeChoice}
                       handleSubmit={handleSubmit}
                       editItem={editChoice}
                     />
 
                     <ChoiceList
-                      items={choices}
+                      items={updatedChoices}
                       clearList={clearList}
                       handleDelete={handleDelete}
                       handleEdit={handleEdit}
