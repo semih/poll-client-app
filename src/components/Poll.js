@@ -22,6 +22,7 @@ export default function Poll({ id, question, choices }) {
   const [editChoice, setEditChoice] = useState(false);
 
   const handleChange = (e, choiceId) => {
+    console.log({ choiceId });
     if (e.target.checked) {
       setChosenOption(choiceId);
     }
@@ -35,7 +36,9 @@ export default function Poll({ id, question, choices }) {
   };
 
   const handleSubmit = (e) => {
+    /*
     e.preventDefault();
+    console.log({ chosenOption });
     const newChoice = {
       id: choiceId,
       text: chosenOption,
@@ -45,7 +48,21 @@ export default function Poll({ id, question, choices }) {
     setChoices(choices);
     setChoice("");
     setChoiceId(uuid());
+    setEditChoice(false);*/
+    e.preventDefault();
+
+    const newChoice = {
+      id: choiceId,
+      text: choice,
+    };
+
+    updatedChoices.push(newChoice);
+
+    setChoices(updatedChoices);
+    setChoice("");
+    setChoiceId(uuid());
     setEditChoice(false);
+    console.log({ updatedChoices });
   };
 
   const clearList = () => {
@@ -87,11 +104,14 @@ export default function Poll({ id, question, choices }) {
     dispatch(updatePoll(accessToken, pollId, request));
   };
 
+  const questionNumberTag = pollId + "     ";
+
   return (
     <React.Fragment>
       {userAuthority === "ROLE_USER" && (
         <Card className="mt-2">
           <Card.Body className="mx-2">
+            <b>{questionNumberTag}. </b>
             {question}
             {updatedChoices.map((choice) => (
               <Row key={choice.id} className="ml-2 mt-3">
@@ -117,24 +137,23 @@ export default function Poll({ id, question, choices }) {
             <Col xs={10}>
               <Form onSubmit={handleSubmitUpdatePoll}>
                 <Form.Group as={Row}>
-                  <Form.Label column sm={2}>
-                    Soru
+                  <Form.Label column sm={2} className="text-right">
+                    <b>Soru {questionNumberTag}</b>
                   </Form.Label>
                   <Col sm={8}>
-                    {pollId}
                     <Form.Control
-                      className="form-control text-capitalize"
                       as="textarea"
                       rows={3}
+                      value={updatedQuestion}
+                      className="form-control text-capitalize"
                       placeholder="Bir Soru Yaz"
                       onChange={handleChangeQuestion}
-                      value={updatedQuestion}
                     />
                   </Col>
                 </Form.Group>
                 <Form.Group as={Row}>
-                  <Form.Label column sm={2}>
-                    Seçenekler
+                  <Form.Label column sm={2} className="text-right">
+                    <b>Seçenekler</b>
                   </Form.Label>
 
                   <Col sm={8}>
