@@ -8,16 +8,10 @@ export function deletePoll(accessToken, id) {
 
     try {
       deleteData("http://localhost:8181/api/polls/" + id, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + accessToken,
-        },
-      })
-        .then((response) => response)
-        .then((json) => {
-          dispatch({ type: "DELETE_POLL_SUCCESS", payload: json });
-        });
+        "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "Bearer " + accessToken,
+      });
+      alert("Soru başarıyla silindi");
     } catch (error) {
       dispatch({
         type: "DELETE_POLL_FAILED",

@@ -7,6 +7,7 @@ import ChoiceList from "./ChoiceList";
 import uuid from "uuid";
 import ChoiceInput from "./ChoiceInput";
 import { updatePoll } from "../redux/actions/updatePoll";
+import { deletePoll } from "../redux/actions/deletePoll";
 
 export default function Poll({ id, question, choices }) {
   const dispatch = useDispatch();
@@ -36,19 +37,6 @@ export default function Poll({ id, question, choices }) {
   };
 
   const handleSubmit = (e) => {
-    /*
-    e.preventDefault();
-    console.log({ chosenOption });
-    const newChoice = {
-      id: choiceId,
-      text: chosenOption,
-    };
-
-    const choices = [...updatedChoices, newChoice];
-    setChoices(choices);
-    setChoice("");
-    setChoiceId(uuid());
-    setEditChoice(false);*/
     e.preventDefault();
 
     const newChoice = {
@@ -95,13 +83,19 @@ export default function Poll({ id, question, choices }) {
 
   const handleSubmitUpdatePoll = (e) => {
     e.preventDefault();
-
+    console.log("update");
     const request = {
       question,
       choices: updatedChoices.map((choice) => ({ text: choice.text })),
     };
 
+    console.log({ request });
     dispatch(updatePoll(accessToken, pollId, request));
+  };
+
+  const handleClickDelete = (e) => {
+    e.preventDefault();
+    dispatch(deletePoll(accessToken, pollId));
   };
 
   const questionNumberTag = pollId + "     ";
@@ -184,7 +178,7 @@ export default function Poll({ id, question, choices }) {
                     <button
                       className="btn-dark btn-md"
                       type="submit"
-                      disabled={question === "" && choices.length === 0}
+                      onClick={handleClickDelete}
                     >
                       Sil
                     </button>

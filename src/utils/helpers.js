@@ -34,7 +34,7 @@ export async function getData(url = "", accessToken) {
 }
 
 // Example PUT method implementation:
-export async function putData(url = "", headers = {}, data = {}) {
+export async function putData(url = "", headers = {}, data) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: "PUT", // *GET, POST, PUT, DELETE, etc.
@@ -62,5 +62,5 @@ export async function deleteData(url = "", headers = {}, data = {}) {
     referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     //body: JSON.stringify(data), // body data type must match "Content-Type" header
   });
-  return response.json(); // parses JSON response into native JavaScript objects
+  return response; // parses JSON response into native JavaScript objects
 }
