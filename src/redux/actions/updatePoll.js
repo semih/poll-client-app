@@ -7,13 +7,14 @@ export function updatePoll(accessToken, id, request) {
     });
 
     try {
-      await putData("http://localhost:8181/api/polls/" + id, {
-        headers: {
+      await putData(
+        "http://localhost:8181/api/polls/" + id,
+        {
           "Content-Type": "application/json",
           Authorization: "Bearer " + accessToken,
         },
-        body: request,
-      })
+        request
+      )
         .then((response) => response)
         .then((json) => {
           dispatch({ type: "PUT_POLL_SUCCESS", payload: json });

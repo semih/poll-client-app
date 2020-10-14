@@ -3,7 +3,6 @@ import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import { useDispatch, useSelector } from "react-redux";
 import { addPoll } from "../redux/actions/addPoll";
 import {
@@ -29,7 +28,6 @@ const AddPoll = () => {
 
   const accessToken = useSelector(selectAccessToken);
   const isUserLoggedIn = useSelector(selectIsUserLoggedIn);
-  const addPollSelector = useSelector(selectAddPoll);
 
   if (!isUserLoggedIn) {
     return <Redirect to="/login" components={Login} />;
@@ -105,7 +103,7 @@ const AddPoll = () => {
                 <Col sm={10}>
                   <Form.Control
                     as="textarea"
-                    row="3"
+                    row={3}
                     value={question}
                     className="form-control text-capitalize"
                     placeholder="Bir Soru Yaz"
