@@ -46,7 +46,7 @@ export const Polls = () => {
             <Form>
               <Col>
                 {polls.map((poll) => (
-                  <Poll key={poll.id} {...poll} poll={poll} />
+                  <Poll key={poll.id} {...poll} />
                 ))}
               </Col>
               {userAuthority === "ROLE_USER" && (

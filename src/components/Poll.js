@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Card, Col, Container, Form, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAccessToken, selectUserAuthority } from "../redux/accessors";
@@ -17,17 +17,11 @@ export default function Poll({ id, question, choices, poll }) {
   const pollId = id;
 
   const [chosenOption, setChosenOption] = useState();
-  const [updatedPoll, setPoll] = useState(poll);
   const [updatedQuestion, setQuestion] = useState(question);
   const [updatedChoices, setChoices] = useState(choices);
   const [choiceId, setChoiceId] = useState(uuid());
   const [choice, setChoice] = useState("");
   const [editChoice, setEditChoice] = useState(false);
-
-  useEffect(() => {
-    console.log("poll is updated");
-    console.log(updatedPoll);
-  }, [poll]);
 
   const handleChange = (e, choiceId) => {
     console.log({ choiceId });
@@ -89,26 +83,15 @@ export default function Poll({ id, question, choices, poll }) {
 
   const handleSubmitUpdatePoll = (e) => {
     e.preventDefault();
-    console.log("update");
 
-    /*
     const request = {
       question: updatedQuestion,
       choices: updatedChoices.map((choice) => ({
         text: choice.text,
       })),
     };
-    */
 
-    setPoll({
-      id: pollId,
-      question: updatedQuestion,
-      choices: updatedChoices.map((choice) => ({
-        text: choice.text,
-      })),
-    });
-
-    dispatch(updatePoll(accessToken, pollId, updatedPoll));
+    dispatch(updatePoll(accessToken, pollId, request));
   };
 
   const handleClickDelete = (e) => {
